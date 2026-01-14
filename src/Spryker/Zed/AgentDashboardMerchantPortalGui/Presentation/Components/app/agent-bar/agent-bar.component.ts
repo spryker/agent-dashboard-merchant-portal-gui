@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
+    standalone: false,
     selector: 'mp-agent-bar',
     templateUrl: './agent-bar.component.html',
     styleUrls: ['./agent-bar.component.less'],

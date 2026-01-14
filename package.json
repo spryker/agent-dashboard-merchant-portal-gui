@@ -3,14 +3,14 @@
     "version": "0.0.1",
     "private": true,
     "peerDependencies": {
-        "@angular/common": ">=17.3.0 <19.0.0",
-        "@angular/core": ">=17.3.0 <19.0.0"
+        "@angular/common": ">=20.3.0 <21.0.0",
+        "@angular/core": ">=20.3.0 <21.0.0"
     },
     "dependencies": {
-        "@spryker/button": "^2.0.9",
-        "@spryker/headline": "^2.0.2",
-        "@spryker/styles": "^2.0.11",
-        "@spryker/table": "^2.0.8",
-        "@spryker/web-components": "^2.0.9"
+        "@spryker/button": "^3.0.1",
+        "@spryker/headline": "^3.0.1",
+        "@spryker/styles": "^3.0.1",
+        "@spryker/table": "^3.0.1",
+        "@spryker/web-components": "^3.0.1"
     }
 }

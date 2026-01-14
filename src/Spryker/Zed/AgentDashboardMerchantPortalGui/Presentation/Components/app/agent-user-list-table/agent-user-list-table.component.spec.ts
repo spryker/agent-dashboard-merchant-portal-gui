@@ -1,44 +1,47 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import { createComponentWrapper, getTestingForComponent } from '@mp/zed-ui/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { AgentUserListTableComponent } from './agent-user-list-table.component';
 
 describe('AgentUserListTableComponent', () => {
-    const { testModule, createComponent } = getTestingForComponent(AgentUserListTableComponent, {
-        ngModule: { schemas: [NO_ERRORS_SCHEMA] },
-    });
+    let fixture: ComponentFixture<AgentUserListTableComponent>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [testModule],
+            declarations: [AgentUserListTableComponent],
+            schemas: [NO_ERRORS_SCHEMA],
         });
+
+        fixture = TestBed.createComponent(AgentUserListTableComponent);
     });
 
-    it('should render <spy-table> component', async () => {
-        const host = await createComponentWrapper(createComponent);
-        const tableComponent = host.queryCss('spy-table');
+    it('should render <spy-table> component', () => {
+        fixture.detectChanges();
+        const tableComponent = fixture.debugElement.query(By.css('spy-table'));
 
         expect(tableComponent).toBeTruthy();
     });
 
-    it('should bound `@Input(config)` to the `config` input of <spy-table> component', async () => {
+    it('should bound `@Input(config)` to the `config` input of <spy-table> component', () => {
         const mockTableConfig = {
             config: 'config',
             data: 'data',
             columns: 'columns',
         };
-        const host = await createComponentWrapper(createComponent, { config: mockTableConfig });
-        const tableComponent = host.queryCss('spy-table');
+        fixture.componentRef.setInput('config', mockTableConfig);
+        fixture.detectChanges();
+        const tableComponent = fixture.debugElement.query(By.css('spy-table'));
 
-        expect(tableComponent.properties.config).toEqual(mockTableConfig);
+        expect(tableComponent.nativeElement.config).toEqual(mockTableConfig);
     });
 
-    it('should bound `@Input(tableId)` to the `tableId` input of <spy-table> component', async () => {
+    it('should bound `@Input(tableId)` to the `tableId` input of <spy-table> component', () => {
         const mockTableId = 'mockTableId';
-        const host = await createComponentWrapper(createComponent, { tableId: mockTableId });
-        const tableComponent = host.queryCss('spy-table');
+        fixture.componentRef.setInput('tableId', mockTableId);
+        fixture.detectChanges();
+        const tableComponent = fixture.debugElement.query(By.css('spy-table'));
 
-        expect(tableComponent.properties.tableId).toEqual(mockTableId);
+        expect(tableComponent.nativeElement.tableId).toEqual(mockTableId);
     });
 });

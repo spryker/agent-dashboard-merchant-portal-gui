@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 import { TableConfig } from '@spryker/table';
 
 @Component({
+    standalone: false,
     selector: 'mp-agent-user-list-table',
     templateUrl: './agent-user-list-table.component.html',
     styleUrls: ['./agent-user-list-table.component.less'],

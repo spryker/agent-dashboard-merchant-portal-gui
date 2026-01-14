@@ -1,69 +1,82 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import { createComponentWrapper, getTestingForComponent } from '@mp/zed-ui/testing';
+import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { AgentUserListComponent } from './agent-user-list.component';
 
-describe('AgentUserListComponent', () => {
-    const { testModule, createComponent } = getTestingForComponent(AgentUserListComponent, {
-        ngModule: { schemas: [NO_ERRORS_SCHEMA] },
-        projectContent: `
+@Component({
+    template: `
+        <mp-agent-user-list>
             <span title></span>
             <span button-action></span>
-        `,
-    });
+        </mp-agent-user-list>
+    `,
+    standalone: false,
+})
+class TestHostComponent {}
+
+describe('AgentUserListComponent', () => {
+    let fixture: ComponentFixture<TestHostComponent>;
+    let componentFixture: ComponentFixture<AgentUserListComponent>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [testModule],
+            declarations: [AgentUserListComponent, TestHostComponent],
+            schemas: [NO_ERRORS_SCHEMA],
         });
+
+        fixture = TestBed.createComponent(TestHostComponent);
     });
 
-    it('should render <mp-agent-user-list-table> component', async () => {
-        const host = await createComponentWrapper(createComponent);
-        const agentUserListTableComponent = host.queryCss('mp-agent-user-list-table');
+    it('should render <mp-agent-user-list-table> component', () => {
+        fixture.detectChanges();
+        const agentUserListTableComponent = fixture.debugElement.query(By.css('mp-agent-user-list-table'));
 
         expect(agentUserListTableComponent).toBeTruthy();
     });
 
-    it('should render <spy-headline> component', async () => {
-        const host = await createComponentWrapper(createComponent);
-        const headlineComponent = host.queryCss('spy-headline');
+    it('should render <spy-headline> component', () => {
+        fixture.detectChanges();
+        const headlineComponent = fixture.debugElement.query(By.css('spy-headline'));
 
         expect(headlineComponent).toBeTruthy();
     });
 
-    it('should render `title` slot to the <spy-headline> component', async () => {
-        const host = await createComponentWrapper(createComponent);
-        const titleSlot = host.queryCss('spy-headline [title]');
+    it('should render `title` slot to the <spy-headline> component', () => {
+        fixture.detectChanges();
+        const titleSlot = fixture.debugElement.query(By.css('spy-headline [title]'));
 
         expect(titleSlot).toBeTruthy();
     });
 
-    it('should render `button-action` slot to the <spy-headline> component', async () => {
-        const host = await createComponentWrapper(createComponent);
-        const buttonActionSlot = host.queryCss('spy-headline [button-action]');
+    it('should render `button-action` slot to the <spy-headline> component', () => {
+        fixture.detectChanges();
+        const buttonActionSlot = fixture.debugElement.query(By.css('spy-headline [button-action]'));
 
         expect(buttonActionSlot).toBeTruthy();
     });
 
-    it('should bound `@Input(tableConfig)` to the `config` input of <mp-agent-user-list-table> component', async () => {
+    it('should bound `@Input(tableConfig)` to the `config` input of <mp-agent-user-list-table> component', () => {
         const mockTableConfig = {
             config: 'config',
             data: 'data',
             columns: 'columns',
         };
-        const host = await createComponentWrapper(createComponent, { tableConfig: mockTableConfig });
-        const agentUserListTableComponent = host.queryCss('mp-agent-user-list-table');
+        componentFixture = TestBed.createComponent(AgentUserListComponent);
+        componentFixture.componentRef.setInput('tableConfig', mockTableConfig);
+        componentFixture.detectChanges();
+        const agentUserListTableComponent = componentFixture.debugElement.query(By.css('mp-agent-user-list-table'));
 
-        expect(agentUserListTableComponent.properties.config).toEqual(mockTableConfig);
+        expect(agentUserListTableComponent.nativeElement.config).toEqual(mockTableConfig);
     });
 
-    it('should bound `@Input(tableId)` to the `tableId` input of <mp-agent-user-list-table> component', async () => {
+    it('should bound `@Input(tableId)` to the `tableId` input of <mp-agent-user-list-table> component', () => {
         const mockTableId = 'mockTableId';
-        const host = await createComponentWrapper(createComponent, { tableId: mockTableId });
-        const agentUserListTableComponent = host.queryCss('mp-agent-user-list-table');
+        componentFixture = TestBed.createComponent(AgentUserListComponent);
+        componentFixture.componentRef.setInput('tableId', mockTableId);
+        componentFixture.detectChanges();
+        const agentUserListTableComponent = componentFixture.debugElement.query(By.css('mp-agent-user-list-table'));
 
-        expect(agentUserListTableComponent.properties.tableId).toEqual(mockTableId);
+        expect(agentUserListTableComponent.nativeElement.tableId).toEqual(mockTableId);
     });
 });
